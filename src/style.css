@@ -1,0 +1,368 @@
+/* Reset and fonts */
+:root {
+  --primary-color: #e6e6e6;
+  --accent-color: #ff3333;
+  --bg-color: #0b1021;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'VT323', monospace;
+  background-color: #000;
+  color: var(--primary-color);
+  overflow: hidden;
+  /* Prevent scrolling during gameplay */
+  user-select: none;
+}
+
+/* Hide default cursor on the whole container */
+#game-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-color);
+  cursor: none;
+}
+
+/* Canvas styling */
+canvas {
+  /* Box shadow for a premium arcade cabinet feel */
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 51, 51, 0.2);
+  background-color: #111;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border: 4px solid #333;
+  border-radius: 8px;
+  cursor: none;
+  /* Hide default mouse cursor */
+}
+
+/* Custom Cursor Overlay using our generated crosshair */
+#crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  background-image: url('/assets/crosshair.png');
+  background-size: cover;
+  pointer-events: none;
+  /* Let clicks pass through to canvas! */
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+/* UI Overlays */
+.overlay-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  /* Prevent blocking clicks normally */
+}
+
+.overlay-layer.hidden {
+  display: none !important;
+}
+
+/* Make sure splash and game over screens can receive clicks anywhere */
+#splashScreen,
+#gameOverScreen {
+  pointer-events: auto;
+  cursor: default;
+  /* Show regular cursor on screens if crosshair is disabled, but we leave custom cursor active everywhere */
+}
+
+/* HUD */
+#hud {
+  justify-content: flex-start;
+  padding: 20px 40px;
+}
+
+.hud-top {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 800px;
+  /* match canvas width roughly */
+  font-size: 2rem;
+  text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  color: #fbbf24;
+}
+
+/* Splash Screen Styling */
+#splashScreen .hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.4;
+  z-index: 1;
+}
+
+.splash-content,
+.modal-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 40px;
+  border: 2px solid var(--accent-color);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 51, 51, 0.5);
+  backdrop-filter: blur(5px);
+}
+
+.splash-content h1 {
+  font-size: 5rem;
+  color: #fff;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.splash-content p {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #ccc;
+}
+
+.splash-content .instruction {
+  color: #fbbf24;
+}
+
+/* Premium Button CSS */
+.premium-button {
+  background: linear-gradient(180deg, #ff4c4c, #c00);
+  border: 2px solid #ff9999;
+  border-radius: 6px;
+  color: white;
+  font-family: 'VT323', monospace;
+  font-size: 2rem;
+  padding: 15px 40px;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #600, 0 10px 10px rgba(0, 0, 0, 0.5);
+  transition: all 0.1s;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 20px;
+}
+
+.premium-button:hover {
+  background: linear-gradient(180deg, #ff6666, #d00);
+  transform: translateY(2px);
+  box-shadow: 0 4px 0 #600, 0 6px 8px rgba(0, 0, 0, 0.5);
+}
+
+.premium-button:active {
+  transform: translateY(6px);
+  box-shadow: none;
+}
+
+/* Glitch effect for title */
+.glitch {
+  position: relative;
+  color: white;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-title);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+}
+
+.glitch::before {
+  left: 2px;
+  text-shadow: -2px 0 red;
+  clip: rect(44px, 1000px, 56px, 0);
+  animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -2px;
+  text-shadow: -2px 0 blue;
+  clip: rect(44px, 1000px, 56px, 0);
+  animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% {
+    clip: rect(21px, 9999px, 86px, 0);
+  }
+
+  5% {
+    clip: rect(61px, 9999px, 8px, 0);
+  }
+
+  10% {
+    clip: rect(4px, 9999px, 96px, 0);
+  }
+
+  15% {
+    clip: rect(78px, 9999px, 20px, 0);
+  }
+
+  20% {
+    clip: rect(46px, 9999px, 80px, 0);
+  }
+
+  25% {
+    clip: rect(98px, 9999px, 49px, 0);
+  }
+
+  30% {
+    clip: rect(31px, 9999px, 28px, 0);
+  }
+
+  35% {
+    clip: rect(11px, 9999px, 63px, 0);
+  }
+
+  40% {
+    clip: rect(54px, 9999px, 7px, 0);
+  }
+
+  45% {
+    clip: rect(89px, 9999px, 15px, 0);
+  }
+
+  50% {
+    clip: rect(4px, 9999px, 86px, 0);
+  }
+
+  55% {
+    clip: rect(61px, 9999px, 2px, 0);
+  }
+
+  60% {
+    clip: rect(46px, 9999px, 90px, 0);
+  }
+
+  65% {
+    clip: rect(8px, 9999px, 35px, 0);
+  }
+
+  70% {
+    clip: rect(71px, 9999px, 64px, 0);
+  }
+
+  75% {
+    clip: rect(22px, 9999px, 21px, 0);
+  }
+
+  80% {
+    clip: rect(91px, 9999px, 18px, 0);
+  }
+
+  85% {
+    clip: rect(36px, 9999px, 40px, 0);
+  }
+
+  90% {
+    clip: rect(15px, 9999px, 75px, 0);
+  }
+
+  95% {
+    clip: rect(82px, 9999px, 5px, 0);
+  }
+
+  100% {
+    clip: rect(41px, 9999px, 99px, 0);
+  }
+}
+
+/* Modals */
+.overlay-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+}
+
+#gameOverScreen h2 {
+  font-size: 4rem;
+  color: var(--accent-color);
+  margin-bottom: 20px;
+}
+
+/* Character Popup */
+#characterPopup {
+  position: absolute;
+  bottom: -300px;
+  right: 50px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: bottom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 100;
+  pointer-events: none;
+}
+
+#characterPopup.slide-up {
+  bottom: 0px;
+}
+
+#characterHead {
+  width: 150px;
+  height: auto;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.8));
+}
+
+.speech-bubble {
+  background: white;
+  color: black;
+  border-radius: 10px;
+  padding: 10px 15px;
+  font-size: 1.5rem;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  position: relative;
+  margin-bottom: 15px;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+  transform: scale(0);
+  transition: transform 0.3s ease 0.8s;
+  /* pops up after slide */
+}
+
+#characterPopup.slide-up .speech-bubble {
+  transform: scale(1);
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  /* arrow sticking down */
+  left: 50%;
+  margin-left: -10px;
+  border-width: 10px 10px 0;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+}

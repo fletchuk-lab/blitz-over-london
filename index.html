@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blitz Over London</title>
+  <!-- Use a retro/military Google font like 'Black Ops One' or 'VT323' -->
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div id="app">
+    <!-- Background for UI/fallback -->
+    <div id="game-container">
+
+      <!-- The Game Canvas -->
+      <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+      <!-- Custom Cursor (Crosshair) -->
+      <div id="crosshair"></div>
+
+      <!-- HUD Overlay -->
+      <div id="hud" class="overlay-layer hidden">
+        <div class="hud-top">
+          <span id="scoreText">SCORE: 0</span>
+          <span id="livesText">LIVES: 3</span>
+          <span id="levelText">WAVE: 1</span>
+        </div>
+      </div>
+
+      <!-- Splash Screen -->
+      <div id="splashScreen" class="overlay-layer">
+        <div class="hero-image" style="background-image: url('/assets/splash_bg.png')"></div>
+        <div class="splash-content">
+          <h1 class="glitch" data-title="BLITZ OVER LONDON">BLITZ OVER LONDON</h1>
+          <p>Defend the city from incoming German bombers!</p>
+          <p class="instruction">Aim with mouse, click to fire antiaircraft flak.</p>
+          <button id="startBtn" class="premium-button">DEFEND THE CITY</button>
+          <p style="font-size: 1.2rem; margin-top: 15px; opacity: 0.8;">Game created by Harlan Fletcher &amp; AI</p>
+        </div>
+      </div>
+
+      <!-- Game Over Screen -->
+      <div id="gameOverScreen" class="overlay-layer hidden">
+        <div class="overlay-bg"></div>
+        <div class="modal-content">
+          <h2 class="glitch" data-title="LONDON HAS FALLEN">LONDON HAS FALLEN</h2>
+          <p>Final Score: <span id="finalScore">0</span></p>
+          <button id="restartBtn" class="premium-button">RETRY WAVES</button>
+        </div>
+      </div>
+
+      <!-- Character Popup -->
+      <div id="characterPopup">
+        <div id="characterSpeechBubble" class="speech-bubble">Good shot soldier!</div>
+        <img src="/assets/churchill.png" id="characterHead" alt="Character"
+          onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'150\'><text x=\'50%\' y=\'50%\' font-size=\'100\' text-anchor=\'middle\' dominant-baseline=\'middle\'>👤</text></svg>'">
+      </div>
+
+    </div>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
