@@ -32,8 +32,8 @@ const totalImages = 2;
 assets.bomber.onload = checkImagesLoaded;
 assets.bg.onload = checkImagesLoaded;
 
-assets.bomber.src = '/assets/bomber.png';
-assets.bg.src = '/assets/game_bg.png';
+assets.bomber.src = './assets/bomber.png';
+assets.bg.src = './assets/game_bg.png';
 
 let game = null;
 
@@ -50,11 +50,11 @@ function initGame() {
   // Bind character event
   game.onMilestone = (event) => {
     if (event === 'churchill5') {
-      showCharacter('churchill', "Good shot soldier!", '/assets/audio/churchill.mp3');
+      showCharacter('churchill', "Good shot soldier!", './assets/audio/churchill.mp3');
     } else if (event === 'hitler30') {
-      showCharacter('hitler', "Oh no! Not my precious Heinkel bombers!", '/assets/audio/hitler1.mp3');
+      showCharacter('hitler', "Oh no! Not my precious Heinkel bombers!", './assets/audio/hitler1.mp3');
     } else if (event === 'hitler50') {
-      showCharacter('hitler', "We surrender!", '/assets/audio/hitler2.mp3');
+      showCharacter('hitler', "We surrender!", './assets/audio/hitler2.mp3');
 
       // Auto complete the game 5 seconds after this action
       setTimeout(() => {
@@ -76,7 +76,7 @@ function initGame() {
 
 function showCharacter(character, text, audioFile) {
   // Setup visuals
-  characterHead.src = `/assets/${character}.png`;
+  characterHead.src = `./assets/${character}.png`;
   characterSpeechBubble.innerText = text;
 
   // Slide up
@@ -152,7 +152,7 @@ startBtn.addEventListener('click', () => {
   crosshair.style.display = 'block';
   document.body.style.cursor = 'none';
 
-  showCharacter('citizen', "Everybody... to the air raid shelters!", '/assets/audio/citizen.mp3');
+  showCharacter('citizen', "Everybody... to the air raid shelters!", './assets/audio/citizen.mp3');
   game.start();
 });
 
@@ -163,6 +163,6 @@ restartBtn.addEventListener('click', () => {
   crosshair.style.display = 'block';
   document.body.style.cursor = 'none';
 
-  showCharacter('citizen', "Everybody... to the air raid shelters!", '/assets/audio/citizen.mp3');
+  showCharacter('citizen', "Everybody... to the air raid shelters!", './assets/audio/citizen.mp3');
   game.start();
 });
